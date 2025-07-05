@@ -1,5 +1,5 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+import { expect } from "chai";
+import { ethers } from "hardhat";
 
 describe("HotPotato", function () {
   let contract, owner, player1, player2, player3, player4, player5, player6;
@@ -8,6 +8,10 @@ describe("HotPotato", function () {
     [owner, player1, player2, player3, player4, player5, player6] = await ethers.getSigners();
     const HotPotato = await ethers.getContractFactory("HotPotato");
     contract = await HotPotato.deploy();
+  });
+
+  it("is owner", async () => {
+    expect(await contract.owner()).to.equal(owner.address);
   });
 
   it("should create a potato", async () => {
@@ -32,9 +36,7 @@ describe("HotPotato", function () {
     await contract.passPotato(1, player5.address, "cid4");
     await contract.passPotato(1, player6.address, "cid5");
     // try to pass back to player2 (should fail)
-    await expect(
-      contract.passPotato(1, player2.address, "cid6")
-    ).to.be.revertedWith("Recipient is in recent holders");
+    await expect(contract.passPotato(1, player2.address, "cid6")).to.be.revertedWith("Recipient is in recent holders");
   });
 
   it("should burn and reward score correctly", async () => {
