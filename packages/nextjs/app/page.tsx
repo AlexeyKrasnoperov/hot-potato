@@ -154,7 +154,6 @@ const Home: NextPage = () => {
       ) : (
         <Image src="/player.png" alt="player" width={256} height={256} />
       )}
-      ;
       {status && (
         <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700 dark:text-gray-200">
           {status.hasPotato ? (
@@ -165,7 +164,9 @@ const Home: NextPage = () => {
               <div>
                 <strong>Congrats, you are holding a potato. Pass it to someone else before it expires.</strong>
               </div>
-              <div className={`transition-all ${secondsLeft === 0 ? "text-red-600 animate-pulse font-bold" : ""}`}>
+              <div
+                className={`text-4xl font-mono text-center transition-all ${secondsLeft === 0 ? "text-red-600 animate-pulse font-bold" : ""}`}
+              >
                 <strong>Time left:</strong> {secondsLeft !== null ? `${secondsLeft} sec` : "—"}
               </div>
             </>
