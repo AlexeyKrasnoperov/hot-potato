@@ -124,22 +124,31 @@ const Home: NextPage = () => {
   }
 
   const signAndSend = async () => {
-    if (!selfAddress || !scannedAddress) return;
+    if (!selfAddress || !scannedAddress || !status?.potatoId) return;
     setIsLoading(true);
     try {
       const message = `pass_potato_to:${scannedAddress}`;
       const sig = await signMessage(message);
+
       const res = await fetch("/api/pass-potato", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ from: selfAddress, to: scannedAddress, signature: sig }),
+        body: JSON.stringify({
+          id: status.potatoId,
+          from: selfAddress,
+          to: scannedAddress,
+          signature: sig,
+        }),
       });
+
       if (res.ok) {
         toast.success("Potato passed!");
+        await fetchStatus(selfAddress);
       } else {
-        toast.error("Backend error");
+        const { error } = await res.json();
+        toast.error(error || "Backend error");
+        alert(error);
       }
-      await fetchStatus(selfAddress);
     } catch (e) {
       console.error(e);
       alert(e);
@@ -176,7 +185,7 @@ const Home: NextPage = () => {
             </>
           ) : (
             <>
-              <div>No active potato</div>
+              <div>Be brave, mint a potato</div>
               <button
                 className="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
                 onClick={async () => {
@@ -242,29 +251,34 @@ const Home: NextPage = () => {
           >
             Forget wristband
           </button>
-          <button
-            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
-            onClick={scanOther}
-            disabled={isLoading}
-          >
-            Scan other player
-          </button>
-          {scannedAddress && (
+          {status && status.hasPotato && (
             <>
-              <input
-                className="w-full border rounded px-3 py-2 text-sm bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
-                value={scannedAddress}
-                readOnly
-              />
               <button
-                className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded"
-                onClick={signAndSend}
+                className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                onClick={scanOther}
                 disabled={isLoading}
               >
-                Pass the potato
+                Scan other player
               </button>
+              {scannedAddress && (
+                <>
+                  <input
+                    className="w-full border rounded px-3 py-2 text-sm bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
+                    value={scannedAddress}
+                    readOnly
+                  />
+                  <button
+                    className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded"
+                    onClick={signAndSend}
+                    disabled={isLoading}
+                  >
+                    Pass the potato
+                  </button>
+                </>
+              )}
             </>
           )}
+          ;
         </div>
       )}
     </main>
