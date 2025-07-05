@@ -112,7 +112,7 @@ const Home: NextPage = () => {
 
   async function getArxAddress(): Promise<string> {
     const res = await execHaloCmdWeb({ name: "get_pkeys", args: {} });
-    const address = res.etherAddresses["1"];
+    const address = res.etherAddresses["2"];
     return address;
   }
 
