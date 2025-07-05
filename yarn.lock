@@ -26,6 +26,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@arx-research/libhalo@npm:^1.12.1":
+  version: 1.12.1
+  resolution: "@arx-research/libhalo@npm:1.12.1"
+  dependencies:
+    buffer: ^6.0.3
+    elliptic: ^6.6.1
+    ethers: ^6.13.5
+    jose: ^6.0.10
+    js-sha256: ^0.11.0
+    pbkdf2: ^3.1.2
+    qrcode: ^1.5.4
+    query-string: ^9.1.1
+    strongly-typed-events: ^3.0.11
+    websocket-as-promised: ^3.0.0
+  checksum: 362ec2d8a4f15189baf4c3a4732e162c171bde2fcbdecc7f042e58a3bf35894c9de97711c5218285354c39fbd25d834ba73126ec4491e0839b82ce5f3fa3707e
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.22.13, @babel/code-frame@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/code-frame@npm:7.27.1"
@@ -6622,6 +6640,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chnl@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "chnl@npm:1.2.0"
+  checksum: d87b4a23016cf246b4c02fe423a164e2229505163ee7a70c68b90a90fae1418512491462d4d6524e70cb89bcd68c692c6c38cb9ac4b0a989a60c55273435b9bc
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:4.0.0":
   version: 4.0.0
   resolution: "chokidar@npm:4.0.0"
@@ -7333,6 +7358,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decode-uri-component@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "decode-uri-component@npm:0.4.1"
+  checksum: 0473924860986fb6ca19ee65a2af13e08801b4f3660475b058500ea8479ed715c919884a026b6bf4296dbb640d3cea74fadf45490b2439152fc548271d0201ec
+  languageName: node
+  linkType: hard
+
 "decompress-response@npm:^6.0.0":
   version: 6.0.0
   resolution: "decompress-response@npm:6.0.0"
@@ -7666,7 +7698,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"elliptic@npm:6.6.1, elliptic@npm:^6.5.2, elliptic@npm:^6.5.7":
+"elliptic@npm:6.6.1, elliptic@npm:^6.5.2, elliptic@npm:^6.5.7, elliptic@npm:^6.6.1":
   version: 6.6.1
   resolution: "elliptic@npm:6.6.1"
   dependencies:
@@ -8738,6 +8770,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ethers@npm:^6.13.5":
+  version: 6.15.0
+  resolution: "ethers@npm:6.15.0"
+  dependencies:
+    "@adraffy/ens-normalize": 1.10.1
+    "@noble/curves": 1.2.0
+    "@noble/hashes": 1.3.2
+    "@types/node": 22.7.5
+    aes-js: 4.0.0-beta.5
+    tslib: 2.7.0
+    ws: 8.17.1
+  checksum: 3e8fb73b5cf2bef564433442adb68fe89a6da0d664c1ebe6e226fe5e7160da7010800334c3ecc53eef51ff8c10a3255fa99160e8d424f1241440043f6faa2ea1
+  languageName: node
+  linkType: hard
+
 "ethers@npm:~5.7.0":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
@@ -9112,6 +9159,13 @@ __metadata:
   version: 1.1.0
   resolution: "filter-obj@npm:1.1.0"
   checksum: cf2104a7c45ff48e7f505b78a3991c8f7f30f28bd8106ef582721f321f1c6277f7751aacd5d83026cb079d9d5091082f588d14a72e7c5d720ece79118fa61e10
+  languageName: node
+  linkType: hard
+
+"filter-obj@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "filter-obj@npm:5.1.0"
+  checksum: ba7c24d9b2c0552ee87d268e07eca74483af61fb740545ffa809f7e9e5294de38cf163ecc55af0e8a40020af9a49512c32f4022de2a858b110420fc8bffa7c9c
   languageName: node
   linkType: hard
 
@@ -11075,6 +11129,20 @@ __metadata:
   bin:
     jiti: lib/jiti-cli.mjs
   checksum: c6c30c7b6b293e9f26addfb332b63d964a9f143cdd2cf5e946dbe5143db89f7c1b50ad9223b77fb1f6ddb0b9c5ecef995fea024ecf7d2861d285d779cde66e1e
+  languageName: node
+  linkType: hard
+
+"jose@npm:^6.0.10":
+  version: 6.0.11
+  resolution: "jose@npm:6.0.11"
+  checksum: 4c4c4d2a170b411d1ccc8bc63812f90d08c0586a079ba057a10fd38f5ea5801d9cc08611caa39fbed6037a8948426aa8e1da32adb945a06c1ba3b85cccf5f47f
+  languageName: node
+  linkType: hard
+
+"js-sha256@npm:^0.11.0":
+  version: 0.11.1
+  resolution: "js-sha256@npm:0.11.1"
+  checksum: c23821003bd7459d0af0a7aef8de1b93e126f378588a3fb181ee2dd7c4d2531fba19112b518f649601f34332f159efe194c0aada7b35afef030d7a5c295eb645
   languageName: node
   linkType: hard
 
@@ -13619,7 +13687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pbkdf2@npm:^3.0.17":
+"pbkdf2@npm:^3.0.17, pbkdf2@npm:^3.1.2":
   version: 3.1.3
   resolution: "pbkdf2@npm:3.1.3"
   dependencies:
@@ -13948,6 +14016,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"promise-controller@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "promise-controller@npm:1.0.0"
+  checksum: 81866fc70def35d3f59f48acedb9c226b9fa501b941c87aebeea4f4c324ff812d012fbf7ade9b696178f1ed94439d039a923c835eb9f1a0a9bf302679f701173
+  languageName: node
+  linkType: hard
+
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -13955,6 +14030,13 @@ __metadata:
     err-code: ^2.0.2
     retry: ^0.12.0
   checksum: f96a3f6d90b92b568a26f71e966cbbc0f63ab85ea6ff6c81284dc869b41510e6cdef99b6b65f9030f0db422bf7c96652a3fff9f2e8fb4a0f069d8f4430359429
+  languageName: node
+  linkType: hard
+
+"promised-map@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "promised-map@npm:1.0.0"
+  checksum: 716cc4b1be07467ee8ad204eb572d3149e12dd00a60e2267c7505261ce7756e45fcbfc4fcef606c0ffa56fa4984d8e4c5dbb411d21ed30730bd889f1264dd1d3
   languageName: node
   linkType: hard
 
@@ -14086,7 +14168,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qrcode@npm:~1.5.4":
+"qrcode@npm:^1.5.4, qrcode@npm:~1.5.4":
   version: 1.5.4
   resolution: "qrcode@npm:1.5.4"
   dependencies:
@@ -14117,6 +14199,17 @@ __metadata:
     split-on-first: ^1.0.0
     strict-uri-encode: ^2.0.0
   checksum: 91af02dcd9cc9227a052841d5c2eecb80a0d6489d05625df506a097ef1c59037cfb5e907f39b84643cbfd535c955abec3e553d0130a7b510120c37d06e0f4346
+  languageName: node
+  linkType: hard
+
+"query-string@npm:^9.1.1":
+  version: 9.2.2
+  resolution: "query-string@npm:9.2.2"
+  dependencies:
+    decode-uri-component: ^0.4.1
+    filter-obj: ^5.1.0
+    split-on-first: ^3.0.0
+  checksum: b8710cff782de5a10b98b7434b8dece01ed25e5157c8b2e781c20f745b27429196b70460951ea1ca72be3ce8384f3a1da355304d3441bbf77ed48e9d4bfa96b2
   languageName: node
   linkType: hard
 
@@ -14795,8 +14888,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    "@arx-research/libhalo": ^1.12.1
     husky: ~9.1.6
     lint-staged: ~13.2.2
+    sonner: ^2.0.6
   languageName: unknown
   linkType: soft
 
@@ -15283,6 +15378,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sonner@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "sonner@npm:2.0.6"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 6921a8b35f6fb61d62e745ffdaafbb72dff988478397313916d87b7a74e74063623eb7ecc139a42861f8dac30f67101fe77fc049e983e2d4ed1710ccead9303e
+  languageName: node
+  linkType: hard
+
 "source-map-js@npm:^1.0.2, source-map-js@npm:^1.2.1":
   version: 1.2.1
   resolution: "source-map-js@npm:1.2.1"
@@ -15381,6 +15486,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"split-on-first@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "split-on-first@npm:3.0.0"
+  checksum: 75dc27ecbac65cfbeab9a3b90cf046307220192d3d7a30e46aa0f19571cc9b4802aac813f3de2cc9b16f2e46aae72f275659b5d2614bb5369c77724d739e5f73
+  languageName: node
+  linkType: hard
+
 "split2@npm:^4.0.0":
   version: 4.2.0
   resolution: "split2@npm:4.2.0"
@@ -15445,6 +15557,67 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
+  languageName: node
+  linkType: hard
+
+"ste-core@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-core@npm:3.0.11"
+  checksum: 369bacf6ac9a2b8ca353b094e87767b43fd9f51a300e19569e081aaf79e548b1b913e2eb4af09fbc117297435e2b7284d80cf91c2ae416dedf640062bd3f0ca0
+  languageName: node
+  linkType: hard
+
+"ste-events@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-events@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: 1d584dc2d0079cc5585bca0c914828c444b328fd43a0446f3796793f10bc1d65b1a45ece4f47960557dd446dd2fee4e1b9bda79b0ad0db08378442fcae89f644
+  languageName: node
+  linkType: hard
+
+"ste-promise-events@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-promise-events@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: eb4478368bf8ff65d70f50190e3c07755131d87fd4a3886bdbe442a51edbdf37ca0834ddf581c16a6bc739b4cbf33c66956a9dc995724542d5d805ab6ba7c81b
+  languageName: node
+  linkType: hard
+
+"ste-promise-signals@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-promise-signals@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: ec7a0f1e744e7f3e6d579d0681cf1643e5fc6e38679266ac1ee0f5b487fdc304e17af2cfaafa424b0a74cce4c700b7ea3d88a95005e09ac4ec9240b9c47ed879
+  languageName: node
+  linkType: hard
+
+"ste-promise-simple-events@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-promise-simple-events@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: 6251042a93ebd1eb9560e22f10b850e553df76dabe47981bd93de2fe7e4639f6ca59bfc9379134f8f427ffd4f2fb4e97e78f5018ddf1a2a075499368ce7b7018
+  languageName: node
+  linkType: hard
+
+"ste-signals@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-signals@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: 219d84e04c3752073e85c7bf1b8292ef9a60d3198f98f39b32cef1ff90f2e94611e705b0196e1da3af74cbbfa0089a3d0e6bfff39e29f28dcb52b2d422900137
+  languageName: node
+  linkType: hard
+
+"ste-simple-events@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "ste-simple-events@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+  checksum: 2fefac9540113cd6bc206019b181efd2dfdf5239af0fb8cd5bc83a6b0f8910b3e66dc3fc036a7aa115ca2a2518ba10f54914f7f41f8694de5cae0097d470d017
   languageName: node
   linkType: hard
 
@@ -15694,6 +15867,21 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"strongly-typed-events@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "strongly-typed-events@npm:3.0.11"
+  dependencies:
+    ste-core: ^3.0.11
+    ste-events: ^3.0.11
+    ste-promise-events: ^3.0.11
+    ste-promise-signals: ^3.0.11
+    ste-promise-simple-events: ^3.0.11
+    ste-signals: ^3.0.11
+    ste-simple-events: ^3.0.11
+  checksum: ca08297ee68e4ef59a1f805d1dfbd4c658e41f8f674706182e3d06655d34c0f90a18c9b72afc20ff79eb2748f8c0e9154c047e403fd218faf336aafe513bab1d
   languageName: node
   linkType: hard
 
@@ -17078,6 +17266,17 @@ __metadata:
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
   checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
+  languageName: node
+  linkType: hard
+
+"websocket-as-promised@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "websocket-as-promised@npm:3.0.1"
+  dependencies:
+    chnl: ^1.2.0
+    promise-controller: ^1.0.0
+    promised-map: ^1.0.0
+  checksum: 4daf7b94056bc80f3620610d670ecb9cb3d1b94357d3c2cb1700a1080f2f76e17d5e6a50e5ba8d03e5bcd8e5d5ae73249c3df3527b553320951daaeb7e7708eb
   languageName: node
   linkType: hard
 
