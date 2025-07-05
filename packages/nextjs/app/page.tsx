@@ -119,7 +119,7 @@ const Home: NextPage = () => {
   async function signMessage(message: string): Promise<string> {
     const hash = ethers.hashMessage(message);
     const hex = hash.replace(/^0x/, "");
-    const res = await execHaloCmdWeb({ name: "sign_challenge", challenge: hex });
+    const res = await execHaloCmdWeb({ name: "sign_challenge", keyNo: 1, challenge: hex });
     return res.signature;
   }
 
