@@ -129,6 +129,7 @@ const Home: NextPage = () => {
     try {
       const message = `pass_potato_to:${scannedAddress}`;
       const sig = await signMessage(message);
+      console.log(sig);
 
       const res = await fetch("/api/pass-potato", {
         method: "POST",
@@ -137,7 +138,8 @@ const Home: NextPage = () => {
           id: status.potatoId,
           from: selfAddress,
           to: scannedAddress,
-          signature: sig,
+          signature: "",
+          // signature: sig,
         }),
       });
 
