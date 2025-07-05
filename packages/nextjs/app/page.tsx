@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { execHaloCmdWeb } from "@arx-research/libhalo/api/web";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { toast } from "sonner";
 
@@ -116,20 +116,20 @@ const Home: NextPage = () => {
     return address;
   }
 
-  async function signMessage(message: string): Promise<string> {
-    const hash = ethers.hashMessage(message);
-    const hex = hash.replace(/^0x/, "");
-    const res = await execHaloCmdWeb({ name: "sign_challenge", keyNo: 2, challenge: hex });
-    return res.signature;
-  }
+  // async function signMessage(message: string): Promise<string> {
+  //   const hash = ethers.hashMessage(message);
+  //   const hex = hash.replace(/^0x/, "");
+  //   const res = await execHaloCmdWeb({ name: "sign_challenge", keyNo: 2, challenge: hex });
+  //   return res.signature;
+  // }
 
   const signAndSend = async () => {
     if (!selfAddress || !scannedAddress || !status?.potatoId) return;
     setIsLoading(true);
     try {
-      const message = `pass_potato_to:${scannedAddress}`;
-      const sig = await signMessage(message);
-      console.log(sig);
+      // const message = `pass_potato_to:${scannedAddress}`;
+      // const sig = await signMessage(message);
+      // console.log(sig);
 
       const res = await fetch("/api/pass-potato", {
         method: "POST",
