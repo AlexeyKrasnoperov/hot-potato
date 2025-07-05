@@ -1,71 +1,139 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { execHaloCmdWeb } from "@arx-research/libhalo/api/web";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { toast } from "sonner";
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const [selfAddress, setSelfAddress] = useState<string | null>(null);
+  const [scannedAddress, setScannedAddress] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("selfAddress");
+    if (stored) setSelfAddress(stored);
+  }, []);
+
+  const scanSelf = async () => {
+    setIsLoading(true);
+    try {
+      const addr = await getArxAddress();
+      setSelfAddress(addr);
+      localStorage.setItem("selfAddress", addr);
+      toast.success("Your bracelet is linked");
+    } catch (e) {
+      alert(e);
+      toast.error("Failed to scan your bracelet");
+      console.error(e);
+    }
+    setIsLoading(false);
+  };
+
+  const scanOther = async () => {
+    setIsLoading(true);
+    try {
+      const addr = await getArxAddress();
+      setScannedAddress(addr);
+      toast.success("Scanned other player");
+    } catch (e) {
+      toast.error("Failed to scan target");
+      console.error(e);
+      alert(e);
+    }
+    setIsLoading(false);
+  };
+
+  async function getArxAddress(): Promise<string> {
+    const res = await execHaloCmdWeb({ name: "get_pkeys", args: {} });
+    const address = res.etherAddresses["1"];
+    return address;
+  }
+
+  async function signMessage(message: string): Promise<string> {
+    const hash = ethers.hashMessage(message);
+    const res = await execHaloCmdWeb({ name: "sign_challenge", challenge: hash });
+    return res.signature;
+  }
+
+  const signAndSend = async () => {
+    if (!selfAddress || !scannedAddress) return;
+    setIsLoading(true);
+    try {
+      const message = `pass_potato_to:${scannedAddress}`;
+      const sig = await signMessage(message);
+      const res = await fetch("/api/pass-potato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ from: selfAddress, to: scannedAddress, signature: sig }),
+      });
+      if (res.ok) {
+        toast.success("Potato passed!");
+      } else {
+        toast.error("Backend error");
+      }
+    } catch (e) {
+      console.error(e);
+      alert(e);
+      toast.error("Signing failed");
+    }
+    setIsLoading(false);
+  };
 
   return (
-    <>
-      <div className="flex items-center flex-col grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2 flex-col">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
-          </div>
-
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+    <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
+      {!selfAddress ? (
+        <img src="/player.png" alt="player" className="w-64 h-64" />
+      ) : (
+        <img src="/player-with-potato.png" alt="player" className="w-64 h-64" />
+      )}
+      {!selfAddress ? (
+        <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4">
+          <div className="text-center font-semibold mb-4">Scan your own bracelet</div>
+          <button
+            className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+            onClick={scanSelf}
+            disabled={isLoading}
+          >
+            Scan
+          </button>
         </div>
-
-        <div className="grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col md:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-          </div>
+      ) : (
+        <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4 space-y-4">
+          <div className="text-sm text-gray-500 text-center">Your address</div>
+          <input className="w-full border rounded px-3 py-2 text-sm" value={selfAddress} readOnly />
+          <button
+            onClick={() => {
+              localStorage.removeItem("selfAddress");
+              setSelfAddress(null);
+            }}
+            className="text-xs text-gray-500 underline hover:text-red-500 self-end"
+          >
+            Forget wristband
+          </button>
+          <button
+            className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            onClick={scanOther}
+            disabled={isLoading}
+          >
+            Scan other player
+          </button>
+          {scannedAddress && (
+            <>
+              <input className="w-full border rounded px-3 py-2 text-sm" value={scannedAddress} readOnly />
+              <button
+                className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                onClick={signAndSend}
+                disabled={isLoading}
+              >
+                Pass the potato
+              </button>
+            </>
+          )}
         </div>
-      </div>
-    </>
+      )}
+    </main>
   );
 };
 
