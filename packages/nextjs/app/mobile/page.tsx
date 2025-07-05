@@ -24,6 +24,7 @@ export default function MobilePage() {
       localStorage.setItem("selfAddress", addr);
       toast.success("Your bracelet is linked");
     } catch (e) {
+      alert(e);
       toast.error("Failed to scan your bracelet");
       console.error(e);
     }
