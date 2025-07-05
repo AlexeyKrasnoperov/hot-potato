@@ -35,12 +35,9 @@ const Home: NextPage = () => {
       if (!res.ok) throw new Error("Failed to fetch status");
       const data = await res.json();
 
-      const scoreRes = await fetch(`/api/score?id=${addr}`);
-      const scoreData = await scoreRes.json();
-
       setStatus({
         ...data,
-        score: scoreData.score ?? "0",
+        score: data.score ?? "0",
       });
     } catch (e) {
       console.error("Failed to fetch status", e);
@@ -55,6 +52,7 @@ const Home: NextPage = () => {
       setSelfAddress(addr);
       localStorage.setItem("selfAddress", addr);
       toast.success("Your bracelet is linked");
+      await fetchStatus(addr);
     } catch (e) {
       alert(e);
       toast.error("Failed to scan your bracelet");
@@ -115,7 +113,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
+    <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4 bg-white dark:bg-black transition-colors">
       {!selfAddress ? (
         <Image src="/player.png" alt="player" width={256} height={256} />
       ) : (
@@ -123,7 +121,7 @@ const Home: NextPage = () => {
       )}
 
       {status && (
-        <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700">
+        <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700 dark:text-gray-200">
           <div>
             <strong>Score:</strong> {status.score}
           </div>
@@ -146,10 +144,10 @@ const Home: NextPage = () => {
       )}
 
       {!selfAddress ? (
-        <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4">
-          <div className="text-center font-semibold mb-4">Scan your own bracelet</div>
+        <div className="w-full max-w-sm bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow p-4">
+          <div className="text-center font-semibold text-gray-800 dark:text-white mb-4">Scan your own bracelet</div>
           <button
-            className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+            className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 dark:hover:bg-gray-600"
             onClick={scanSelf}
             disabled={isLoading}
           >
@@ -157,20 +155,24 @@ const Home: NextPage = () => {
           </button>
         </div>
       ) : (
-        <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4 space-y-4">
-          <div className="text-sm text-gray-500 text-center">Your address</div>
-          <input className="w-full border rounded px-3 py-2 text-sm" value={selfAddress} readOnly />
+        <div className="w-full max-w-sm bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow p-4 space-y-4">
+          <div className="text-sm text-gray-500 dark:text-gray-300 text-center">Your address</div>
+          <input
+            className="w-full border rounded px-3 py-2 text-sm bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
+            value={selfAddress}
+            readOnly
+          />
           <button
             onClick={() => {
               localStorage.removeItem("selfAddress");
               setSelfAddress(null);
             }}
-            className="text-xs text-gray-500 underline hover:text-red-500 self-end"
+            className="text-xs text-gray-500 dark:text-gray-400 underline hover:text-red-500 self-end"
           >
             Forget wristband
           </button>
           <button
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
             onClick={scanOther}
             disabled={isLoading}
           >
@@ -178,9 +180,13 @@ const Home: NextPage = () => {
           </button>
           {scannedAddress && (
             <>
-              <input className="w-full border rounded px-3 py-2 text-sm" value={scannedAddress} readOnly />
+              <input
+                className="w-full border rounded px-3 py-2 text-sm bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
+                value={scannedAddress}
+                readOnly
+              />
               <button
-                className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded"
                 onClick={signAndSend}
                 disabled={isLoading}
               >
