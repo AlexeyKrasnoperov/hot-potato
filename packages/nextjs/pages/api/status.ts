@@ -23,6 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           active: true,
           receivedAt: potato.receivedAt.toString(),
           score: score.toString(),
+          recentHolders: potato.recentHolders,
         });
       }
     }

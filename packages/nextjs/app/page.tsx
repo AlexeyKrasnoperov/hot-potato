@@ -19,6 +19,7 @@ const Home: NextPage = () => {
     receivedAt: string | null;
     active: boolean;
     score: string;
+    recentHolders: string[];
   }>(null);
 
   useEffect(() => {
@@ -65,6 +66,21 @@ const Home: NextPage = () => {
     setIsLoading(true);
     try {
       const addr = await getArxAddress();
+
+      if (addr.toLowerCase() === selfAddress?.toLowerCase()) {
+        alert("You cannot scan your own bracelet!");
+        toast.error("Cannot scan your own address");
+        setIsLoading(false);
+        return;
+      }
+
+      const recent = status?.recentHolders?.map(a => a.toLowerCase()) || [];
+      if (recent.includes(addr.toLowerCase())) {
+        toast.error("This player has already held the potato recently. Scan someone else!");
+        setIsLoading(false);
+        return;
+      }
+
       setScannedAddress(addr);
       toast.success("Scanned other player");
     } catch (e) {
@@ -114,33 +130,61 @@ const Home: NextPage = () => {
 
   return (
     <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
-      {!selfAddress ? (
-        <Image src="/player.png" alt="player" width={256} height={256} />
-      ) : (
-        <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
-      )}
-
-      {status && (
+      {status ? (
         <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700 dark:text-gray-200">
-          <div>
-            <strong>Score:</strong> {status.score}
-          </div>
           {status.hasPotato ? (
             <>
+              <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
+              {/* <div>
+                <strong>Score:</strong> {status.score}
+              </div> */}
               <div>
-                <strong>Potato ID:</strong> {status.potatoId}
+                <strong>Congrats, you are holding a potato. Pass it to someone else before it expires.</strong>
               </div>
               <div>
                 <strong>Time left:</strong> {status.secondsLeft} sec
               </div>
-              <div>
-                <strong>Received at:</strong> {new Date(Number(status.receivedAt) * 1000).toLocaleString()}
-              </div>
             </>
           ) : (
-            <div>No active potato</div>
+            <>
+              <Image src="/player.png" alt="player" width={256} height={256} />
+              <div>No active potato</div>
+              <button
+                className="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
+                onClick={async () => {
+                  if (!selfAddress) return;
+                  setIsLoading(true);
+                  try {
+                    const res = await fetch("/api/create-potato", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ address: selfAddress }),
+                    });
+
+                    if (res.ok) {
+                      toast.success("You received a potato!");
+                      await fetchStatus(selfAddress);
+                    } else {
+                      const { error } = await res.json();
+                      toast.error(error || "Failed to create potato");
+                      alert(error);
+                    }
+                  } catch (e) {
+                    toast.error("Failed to create potato");
+                    console.error(e);
+                    alert(e);
+                  }
+                  setIsLoading(false);
+                }}
+                disabled={isLoading}
+              >
+                Mint Potato
+              </button>
+            </>
           )}
         </div>
+      ) : (
+        <Image src="/player.png" alt="player" width={256} height={256} />
       )}
 
       {!selfAddress ? (
@@ -167,6 +211,7 @@ const Home: NextPage = () => {
               localStorage.removeItem("selfAddress");
               setScannedAddress(null);
               setSelfAddress(null);
+              setStatus(null);
             }}
             className="text-xs text-gray-500 dark:text-gray-400 underline hover:text-red-500 self-end"
           >
