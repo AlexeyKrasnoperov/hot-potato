@@ -1,6 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
 /**
  * Deploys a contract named "HotPotato" using the deployer account and
@@ -25,20 +24,16 @@ const deployHotPotato: DeployFunction = async function (hre: HardhatRuntimeEnvir
   await deploy("HotPotato", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployer],
+    args: [],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-
-  // Get the deployed contract to interact with it after deploying.
-  const hotPotato = await hre.ethers.getContract<Contract>("HotPotato", deployer);
-  console.log("👋 Initial greeting:", await hotPotato.greeting());
 };
 
 export default deployHotPotato;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags YourContract
+// e.g. yarn deploy --tags HotPotato
 deployHotPotato.tags = ["HotPotato"];

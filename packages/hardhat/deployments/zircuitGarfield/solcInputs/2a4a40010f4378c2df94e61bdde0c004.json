@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/HotPotato.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity >=0.8.0 <0.9.0;\n\ncontract HotPotato {\n    event PotatoPassed(uint256 indexed id, address indexed from, address indexed to, string walrusCID);\n    event PotatoBurned(uint256 indexed id, address indexed holder);\n    event PotatoRewarded(uint256 indexed id, address indexed holder);\n    event ScoreUpdated(address indexed player, uint256 score);\n\n    struct Potato {\n        address holder;\n        uint256 receivedAt;\n        bool active;\n        address[5] recentHolders;\n        address[] transferHistory;\n    }\n\n    address public immutable owner;\n    uint256 public potatoCount;\n    uint256 public constant TIME_LIMIT = 10 minutes;\n\n    mapping(uint256 => Potato) public potatoes;\n    mapping(address => uint256) public scores;\n    mapping(uint256 => mapping(address => uint256)) public passedAtIndex;\n\n    constructor() {\n        owner = msg.sender;\n    }\n\n    function createPotato(address to) external returns (uint256 id) {\n        require(msg.sender == owner, \"Only owner can create\");\n        require(to != address(0), \"Invalid address\");\n\n        id = ++potatoCount;\n\n        Potato storage p = potatoes[id];\n        p.holder = to;\n        p.receivedAt = block.timestamp;\n        p.active = true;\n    }\n\n    function passPotato(uint256 id, address to, string calldata walrusCID) external {\n        require(msg.sender == owner, \"Only owner can pass\");\n        require(to != address(0), \"Invalid recipient\");\n\n        Potato storage p = potatoes[id];\n        require(p.active, \"Potato is inactive\");\n        require(block.timestamp <= p.receivedAt + TIME_LIMIT, \"Time expired\");\n        require(!_isInRecentHolders(p, to), \"Recipient is in recent holders\");\n\n        emit PotatoPassed(id, p.holder, to, walrusCID);\n\n        _updateRecentHolders(p, p.holder);\n        p.transferHistory.push(p.holder);\n        passedAtIndex[id][p.holder] = p.transferHistory.length - 1;\n\n        p.holder = to;\n        p.receivedAt = block.timestamp;\n    }\n\n    function burnPotato(uint256 id) external {\n        Potato storage p = potatoes[id];\n\n        require(p.active, \"Potato already inactive\");\n        require(msg.sender == p.holder, \"Not current holder\");\n        require(block.timestamp > p.receivedAt + TIME_LIMIT, \"Still within time\");\n\n        p.active = false;\n\n        uint256 total = p.transferHistory.length;\n        for (uint256 i = 0; i < total; i++) {\n            address player = p.transferHistory[i];\n            uint256 passedAt = passedAtIndex[id][player];\n            uint256 gain = total - 1 - passedAt;\n            scores[player] += gain;\n            emit ScoreUpdated(player, scores[player]);\n        }\n\n        emit PotatoBurned(id, msg.sender);\n        emit PotatoRewarded(id, msg.sender);\n    }\n\n    function getTimeLeft(uint256 id) external view returns (uint256) {\n        Potato memory p = potatoes[id];\n        if (!p.active || block.timestamp >= p.receivedAt + TIME_LIMIT) return 0;\n        return (p.receivedAt + TIME_LIMIT) - block.timestamp;\n    }\n\n    function getPotatoHolder(uint256 id) external view returns (address) {\n        return potatoes[id].holder;\n    }\n\n    function isActive(uint256 id) external view returns (bool) {\n        return potatoes[id].active;\n    }\n\n    function _isInRecentHolders(Potato storage p, address a) internal view returns (bool) {\n        for (uint256 i = 0; i < 5; i++) {\n            if (p.recentHolders[i] == a) return true;\n        }\n        return false;\n    }\n\n    function _updateRecentHolders(Potato storage p, address addr) internal {\n        for (uint256 i = 4; i > 0; i--) {\n            p.recentHolders[i] = p.recentHolders[i - 1];\n        }\n        p.recentHolders[0] = addr;\n    }\n\n    function getScore(address player) external view returns (uint256) {\n        return scores[player];\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
