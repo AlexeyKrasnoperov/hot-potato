@@ -37,7 +37,7 @@ Use the `useScaffoldReadContract` (`packages/nextjs/hooks/scaffold-eth/useScaffo
 Example:
 ```typescript
 const { data: someData } = useScaffoldReadContract({
-  contractName: "YourContract",
+  contractName: "HotPotato",
   functionName: "functionName",
   args: [arg1, arg2], // optional
 });

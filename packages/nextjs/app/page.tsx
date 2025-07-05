@@ -12,10 +12,41 @@ const Home: NextPage = () => {
   const [scannedAddress, setScannedAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [status, setStatus] = useState<null | {
+    hasPotato: boolean;
+    potatoId: number | null;
+    secondsLeft: string | null;
+    receivedAt: string | null;
+    active: boolean;
+    score: string;
+  }>(null);
+
   useEffect(() => {
     const stored = localStorage.getItem("selfAddress");
-    if (stored) setSelfAddress(stored);
+    if (stored) {
+      setSelfAddress(stored);
+      fetchStatus(stored);
+    }
   }, []);
+
+  const fetchStatus = async (addr: string) => {
+    try {
+      const res = await fetch(`/api/status?address=${addr}`);
+      if (!res.ok) throw new Error("Failed to fetch status");
+      const data = await res.json();
+
+      const scoreRes = await fetch(`/api/score?id=${addr}`);
+      const scoreData = await scoreRes.json();
+
+      setStatus({
+        ...data,
+        score: scoreData.score ?? "0",
+      });
+    } catch (e) {
+      console.error("Failed to fetch status", e);
+      setStatus(null);
+    }
+  };
 
   const scanSelf = async () => {
     setIsLoading(true);
@@ -74,6 +105,7 @@ const Home: NextPage = () => {
       } else {
         toast.error("Backend error");
       }
+      await fetchStatus(selfAddress);
     } catch (e) {
       console.error(e);
       alert(e);
@@ -89,6 +121,30 @@ const Home: NextPage = () => {
       ) : (
         <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
       )}
+
+      {status && (
+        <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700">
+          <div>
+            <strong>Score:</strong> {status.score}
+          </div>
+          {status.hasPotato ? (
+            <>
+              <div>
+                <strong>Potato ID:</strong> {status.potatoId}
+              </div>
+              <div>
+                <strong>Time left:</strong> {status.secondsLeft} sec
+              </div>
+              <div>
+                <strong>Received at:</strong> {new Date(Number(status.receivedAt) * 1000).toLocaleString()}
+              </div>
+            </>
+          ) : (
+            <div>No active potato</div>
+          )}
+        </div>
+      )}
+
       {!selfAddress ? (
         <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4">
           <div className="text-center font-semibold mb-4">Scan your own bracelet</div>

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 contract HotPotato {
-    event PotatoPassed(uint256 indexed id, address indexed from, address indexed to, string walrusCID);
+    event PotatoPassed(uint256 indexed id, address indexed from, address indexed to);
     event PotatoBurned(uint256 indexed id, address indexed holder);
     event PotatoRewarded(uint256 indexed id, address indexed holder);
     event ScoreUpdated(address indexed player, uint256 score);
@@ -39,7 +39,7 @@ contract HotPotato {
         p.active = true;
     }
 
-    function passPotato(uint256 id, address to, string calldata walrusCID) external {
+    function passPotato(uint256 id, address to) external {
         require(msg.sender == owner, "Only owner can pass");
         require(to != address(0), "Invalid recipient");
 
@@ -48,7 +48,7 @@ contract HotPotato {
         require(block.timestamp <= p.receivedAt + TIME_LIMIT, "Time expired");
         require(!_isInRecentHolders(p, to), "Recipient is in recent holders");
 
-        emit PotatoPassed(id, p.holder, to, walrusCID);
+        emit PotatoPassed(id, p.holder, to);
 
         _updateRecentHolders(p, p.holder);
         p.transferHistory.push(p.holder);
