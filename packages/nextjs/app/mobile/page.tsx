@@ -39,6 +39,7 @@ export default function MobilePage() {
     } catch (e) {
       toast.error("Failed to scan target");
       console.error(e);
+      alert(e);
     }
     setIsLoading(false);
   };
@@ -73,6 +74,7 @@ export default function MobilePage() {
       }
     } catch (e) {
       console.error(e);
+      alert(e);
       toast.error("Signing failed");
     }
     setIsLoading(false);
