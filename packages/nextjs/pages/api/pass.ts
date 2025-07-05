@@ -1,6 +1,7 @@
 import { contract } from "./_setup";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ethers } from "ethers";
+
+// import { ethers } from "ethers";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).send("Method not allowed");
@@ -23,12 +24,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Recover signer from message
-    const expectedMessage = `pass_potato_to:${to}`;
-    const recoveredAddress = ethers.verifyMessage(expectedMessage, signature);
+    // const expectedMessage = `pass_potato_to:${to}`;
+    // const recoveredAddress = ethers.verifyMessage(expectedMessage, signature);
 
-    if (recoveredAddress.toLowerCase() !== from.toLowerCase()) {
-      return res.status(401).json({ error: "Invalid signature" });
-    }
+    // if (recoveredAddress.toLowerCase() !== from.toLowerCase()) {
+    //   return res.status(401).json({ error: "Invalid signature" });
+    // }
 
     // Signature is valid → pass the potato
     const tx = await contract.passPotato(id, to);

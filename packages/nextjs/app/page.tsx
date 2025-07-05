@@ -87,7 +87,7 @@ const Home: NextPage = () => {
       const addr = await getArxAddress();
 
       if (addr.toLowerCase() === selfAddress?.toLowerCase()) {
-        alert("You cannot scan your own bracelet!");
+        alert("You cannot scan your own wristband!");
         toast.error("Cannot scan your own address");
         setIsLoading(false);
         return;
@@ -278,7 +278,6 @@ const Home: NextPage = () => {
               )}
             </>
           )}
-          ;
         </div>
       )}
     </main>
