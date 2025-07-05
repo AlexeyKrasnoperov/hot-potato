@@ -131,6 +131,14 @@ const Home: NextPage = () => {
       // const sig = await signMessage(message);
       // console.log(sig);
 
+      alert(
+        `Passing potato:\n` +
+          `id: ${status?.potatoId}\n` +
+          `from: ${selfAddress}\n` +
+          `to: ${scannedAddress}\n` +
+          `signature: ""`,
+      );
+
       const res = await fetch("/api/pass-potato", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
