@@ -19,9 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Potato is inactive" });
     }
 
-    if (potato.holder.toLowerCase() !== from.toLowerCase()) {
-      return res.status(403).json({ error: "Not current holder" });
-    }
+    // if (potato.holder.toLowerCase() !== from.toLowerCase()) {
+    //   return res.status(403).json({ error: "Not current holder" });
+    // }
 
     // Recover signer from message
     // const expectedMessage = `pass_potato_to:${to}`;
