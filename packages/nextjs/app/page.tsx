@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { execHaloCmdWeb } from "@arx-research/libhalo/api/web";
 import { ethers } from "ethers";
 import type { NextPage } from "next";
@@ -84,9 +85,9 @@ const Home: NextPage = () => {
   return (
     <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
       {!selfAddress ? (
-        <img src="/player.png" alt="player" className="w-64 h-64" />
+        <Image src="/player.png" alt="player" width={256} height={256} />
       ) : (
-        <img src="/player-with-potato.png" alt="player" className="w-64 h-64" />
+        <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
       )}
       {!selfAddress ? (
         <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4">
