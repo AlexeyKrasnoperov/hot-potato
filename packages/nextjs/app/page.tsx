@@ -149,11 +149,16 @@ const Home: NextPage = () => {
 
   return (
     <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
-      {status ? (
+      {status && status.hasPotato ? (
+        <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
+      ) : (
+        <Image src="/player.png" alt="player" width={256} height={256} />
+      )}
+      ;
+      {status && (
         <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700 dark:text-gray-200">
           {status.hasPotato ? (
             <>
-              <Image src="/player-with-potato.png" alt="player" width={256} height={256} />
               {/* <div>
                 <strong>Score:</strong> {status.score}
               </div> */}
@@ -166,7 +171,6 @@ const Home: NextPage = () => {
             </>
           ) : (
             <>
-              <Image src="/player.png" alt="player" width={256} height={256} />
               <div>No active potato</div>
               <button
                 className="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
@@ -202,10 +206,7 @@ const Home: NextPage = () => {
             </>
           )}
         </div>
-      ) : (
-        <Image src="/player.png" alt="player" width={256} height={256} />
       )}
-
       {!selfAddress ? (
         <div className="w-full max-w-sm bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow p-4">
           <div className="text-center font-semibold text-gray-800 dark:text-white mb-4">Scan your own wristband</div>
