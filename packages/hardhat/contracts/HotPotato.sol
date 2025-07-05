@@ -62,7 +62,6 @@ contract HotPotato {
         Potato storage p = potatoes[id];
 
         require(p.active, "Potato already inactive");
-        require(msg.sender == p.holder, "Not current holder");
         require(block.timestamp > p.receivedAt + TIME_LIMIT, "Still within time");
 
         p.active = false;

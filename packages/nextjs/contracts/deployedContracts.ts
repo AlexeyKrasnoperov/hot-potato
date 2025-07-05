@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   48898: {
     HotPotato: {
-      address: "0xe821905daaCd1829ed1BF72BCB0Dd8Ae11C170cb",
+      address: "0xE87c4ABf2b54f674dE71F4D68336A2C362232B58",
       abi: [
         {
           inputs: [],
