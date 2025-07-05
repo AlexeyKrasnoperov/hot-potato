@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { execHaloCmdWeb } from "@arx-research/libhalo/api/web";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { toast } from "sonner";
 
@@ -116,7 +117,9 @@ const Home: NextPage = () => {
   }
 
   async function signMessage(message: string): Promise<string> {
-    const res = await execHaloCmdWeb({ name: "sign_challenge", challenge: message });
+    const hash = ethers.hashMessage(message);
+    const hex = hash.replace(/^0x/, "");
+    const res = await execHaloCmdWeb({ name: "sign_challenge", challenge: hex });
     return res.signature;
   }
 
