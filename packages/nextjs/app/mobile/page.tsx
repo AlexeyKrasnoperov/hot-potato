@@ -43,7 +43,7 @@ export default function MobilePage() {
   };
 
   async function getArxAddress(): Promise<string> {
-    const res = await execHaloCmdWeb("get_pkeys", {});
+    const res = await execHaloCmdWeb({ name: "get_pkeys", args: {} });
     const hex = res.pkeys[0];
     return ethers.computeAddress("0x" + hex);
   }
