@@ -51,11 +51,11 @@ const Home: NextPage = () => {
       const addr = await getArxAddress();
       setSelfAddress(addr);
       localStorage.setItem("selfAddress", addr);
-      toast.success("Your bracelet is linked");
+      toast.success("Your wristband is linked");
       await fetchStatus(addr);
     } catch (e) {
       alert(e);
-      toast.error("Failed to scan your bracelet");
+      toast.error("Failed to scan your wristband");
       console.error(e);
     }
     setIsLoading(false);
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4 bg-white dark:bg-black transition-colors">
+    <main className="min-h-screen p-4 flex flex-col items-center justify-center space-y-4">
       {!selfAddress ? (
         <Image src="/player.png" alt="player" width={256} height={256} />
       ) : (
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
 
       {!selfAddress ? (
         <div className="w-full max-w-sm bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow p-4">
-          <div className="text-center font-semibold text-gray-800 dark:text-white mb-4">Scan your own bracelet</div>
+          <div className="text-center font-semibold text-gray-800 dark:text-white mb-4">Scan your own wristband</div>
           <button
             className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 dark:hover:bg-gray-600"
             onClick={scanSelf}
@@ -165,6 +165,7 @@ const Home: NextPage = () => {
           <button
             onClick={() => {
               localStorage.removeItem("selfAddress");
+              setScannedAddress(null);
               setSelfAddress(null);
             }}
             className="text-xs text-gray-500 dark:text-gray-400 underline hover:text-red-500 self-end"
