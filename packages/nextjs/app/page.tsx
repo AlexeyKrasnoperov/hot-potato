@@ -11,6 +11,7 @@ const Home: NextPage = () => {
   const [selfAddress, setSelfAddress] = useState<string | null>(null);
   const [scannedAddress, setScannedAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   const [status, setStatus] = useState<null | {
     hasPotato: boolean;
@@ -29,6 +30,24 @@ const Home: NextPage = () => {
       fetchStatus(stored);
     }
   }, []);
+
+  useEffect(() => {
+    if (!status?.receivedAt) return;
+
+    const receivedAt = Number(status.receivedAt); // in seconds
+    const limit = 600; // 10 minutes
+
+    const tick = () => {
+      const now = Math.floor(Date.now() / 1000);
+      const remaining = Math.max(0, receivedAt + limit - now);
+      setSecondsLeft(remaining);
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
+
+    return () => clearInterval(interval);
+  }, [status?.receivedAt]);
 
   const fetchStatus = async (addr: string) => {
     try {
@@ -141,8 +160,8 @@ const Home: NextPage = () => {
               <div>
                 <strong>Congrats, you are holding a potato. Pass it to someone else before it expires.</strong>
               </div>
-              <div>
-                <strong>Time left:</strong> {status.secondsLeft} sec
+              <div className={`transition-all ${secondsLeft === 0 ? "text-red-600 animate-pulse font-bold" : ""}`}>
+                <strong>Time left:</strong> {secondsLeft !== null ? `${secondsLeft} sec` : "—"}
               </div>
             </>
           ) : (
