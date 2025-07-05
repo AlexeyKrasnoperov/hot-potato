@@ -161,13 +161,16 @@ const Home: NextPage = () => {
               {/* <div>
                 <strong>Score:</strong> {status.score}
               </div> */}
-              <div>
+              <div className={"text-center"}>
                 <strong>Congrats, you are holding a potato. Pass it to someone else before it expires.</strong>
               </div>
-              <div
-                className={`text-4xl font-mono text-center transition-all ${secondsLeft === 0 ? "text-red-600 animate-pulse font-bold" : ""}`}
-              >
-                <strong>Time left:</strong> {secondsLeft !== null ? `${secondsLeft} sec` : "—"}
+              <div className={`text-center`}>
+                <strong>Time left:</strong>
+                <div
+                  className={`text-4xl font-mono text-center transition-all ${secondsLeft === 0 ? "text-red-600 animate-pulse font-bold" : ""}`}
+                >
+                  {secondsLeft !== null ? `${secondsLeft} sec` : "—"}
+                </div>
               </div>
             </>
           ) : (
