@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import deployment from "../../hardhat/deployments/zircuitGarfield/HotPotato.json" assert { type: "json" };
+import deployment from "../../../hardhat/deployments/zircuitGarfield/HotPotato.json" assert { type: "json" };
 
 const rpcUrl = process.env.RPC_URL!;
 const privateKey = process.env.PRIVATE_KEY!;
