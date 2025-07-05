@@ -19,6 +19,7 @@ export default function MobilePage() {
     setIsLoading(true);
     try {
       const addr = await getArxAddress();
+      alert(addr);
       setSelfAddress(addr);
       localStorage.setItem("selfAddress", addr);
       toast.success("Your bracelet is linked");
