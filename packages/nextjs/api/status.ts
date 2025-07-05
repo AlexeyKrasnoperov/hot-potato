@@ -10,6 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const total = await contract.potatoCount();
+    const score = await contract.getScore(address);
 
     for (let i = 1; i <= total; i++) {
       const potato = await contract.potatoes(i);
@@ -21,6 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           secondsLeft: secondsLeft.toString(),
           active: true,
           receivedAt: potato.receivedAt.toString(),
+          score: score.toString(),
         });
       }
     }
@@ -31,6 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       secondsLeft: null,
       active: false,
       receivedAt: null,
+      score: score.toString(),
     });
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
