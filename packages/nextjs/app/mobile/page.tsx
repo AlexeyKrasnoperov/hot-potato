@@ -19,7 +19,6 @@ export default function MobilePage() {
     setIsLoading(true);
     try {
       const addr = await getArxAddress();
-      alert(addr);
       setSelfAddress(addr);
       localStorage.setItem("selfAddress", addr);
       toast.success("Your bracelet is linked");
@@ -96,6 +95,15 @@ export default function MobilePage() {
         <div className="w-full max-w-sm bg-white border rounded-lg shadow p-4 space-y-4">
           <div className="text-sm text-gray-500 text-center">Your address</div>
           <input className="w-full border rounded px-3 py-2 text-sm" value={selfAddress} readOnly />
+          <button
+            onClick={() => {
+              localStorage.removeItem("selfAddress");
+              setSelfAddress(null);
+            }}
+            className="text-xs text-gray-500 underline hover:text-red-500 self-end"
+          >
+            Forget wristband
+          </button>
           <button
             className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             onClick={scanOther}
