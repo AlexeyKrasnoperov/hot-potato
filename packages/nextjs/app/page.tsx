@@ -149,11 +149,11 @@ const Home: NextPage = () => {
       } else {
         const { error } = await res.json();
         toast.error(error || "Backend error");
-        alert(error);
+        alert(`Backend error: ${error}`);
       }
     } catch (e) {
       console.error(e);
-      alert(e);
+      alert(`Unexpected error: ${e}`);
       toast.error("Signing failed");
     }
     setIsLoading(false);
