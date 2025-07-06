@@ -145,6 +145,19 @@ const Home: NextPage = () => {
           ),
       );
 
+      const payload = {
+        id: status?.potatoId,
+        from: selfAddress,
+        to: scannedAddress,
+        signature: "",
+      };
+
+      const keys = Object.entries(payload).map(([key, value]) => {
+        return `${key}: ${typeof value} = ${String(value)}`;
+      });
+
+      alert("Payload types:\n" + keys.join("\n"));
+
       const res = await fetch("/api/pass-potato", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
