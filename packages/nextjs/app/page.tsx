@@ -170,7 +170,7 @@ const Home: NextPage = () => {
       )}
       {status && (
         <div className="text-sm space-y-1 border-t pt-3 mt-3 text-gray-700 dark:text-gray-200">
-          <div>
+          <div className={"text-center"}>
             <strong>Score:</strong> {status.score}
           </div>
           {status.hasPotato ? (
