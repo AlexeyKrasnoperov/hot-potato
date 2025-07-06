@@ -138,7 +138,7 @@ const Home: NextPage = () => {
               id: Number(status.potatoId),
               from: String(selfAddress),
               to: String(scannedAddress),
-              signature: "",
+              signature: "123",
             },
             null,
             2,
@@ -162,17 +162,17 @@ const Home: NextPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: status.potatoId,
+          id: Number(status.potatoId),
           from: String(selfAddress),
           to: String(scannedAddress),
-          signature: "",
+          signature: String("123"),
           // signature: sig,
         }),
       });
 
       if (res.ok) {
         toast.success("Potato passed!");
-        await fetchStatus(selfAddress);
+        // await fetchStatus(selfAddress);
       } else {
         const { error } = await res.json();
         toast.error(error || "Backend error");
