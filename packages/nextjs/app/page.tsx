@@ -167,7 +167,11 @@ const Home: NextPage = () => {
       }
     } catch (e) {
       console.error(e);
-      alert(`Unexpected error: ${e}`);
+      if (e instanceof Error) {
+        alert(`Unexpected error: ${e.stack}`);
+      } else {
+        alert(`Unexpected error: ${String(e)}`);
+      }
       toast.error("Signing failed");
     }
     setIsLoading(false);
