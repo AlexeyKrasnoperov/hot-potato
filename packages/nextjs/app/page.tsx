@@ -144,8 +144,8 @@ const Home: NextPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: status.potatoId,
-          from: selfAddress,
-          to: scannedAddress,
+          from: String(selfAddress),
+          to: String(scannedAddress),
           signature: "",
           // signature: sig,
         }),
