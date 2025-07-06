@@ -174,9 +174,9 @@ const Home: NextPage = () => {
         toast.success("Potato passed!");
         // await fetchStatus(selfAddress);
       } else {
-        const { error } = await res.json();
-        toast.error(error || "Backend error");
-        alert(`Backend error: ${error}`);
+        // const { error } = await res.json();
+        // toast.error(error || "Backend error");
+        // alert(`Backend error: ${error}`);
       }
     } catch (e) {
       console.error(e);
