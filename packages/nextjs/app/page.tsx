@@ -132,11 +132,17 @@ const Home: NextPage = () => {
       // console.log(sig);
 
       alert(
-        `Passing potato:\n` +
-          `id: ${status?.potatoId}\n` +
-          `from: ${selfAddress}\n` +
-          `to: ${scannedAddress}\n` +
-          `signature: ""`,
+        "Request body:\n" +
+          JSON.stringify(
+            {
+              id: Number(status.potatoId),
+              from: String(selfAddress),
+              to: String(scannedAddress),
+              signature: "",
+            },
+            null,
+            2,
+          ),
       );
 
       const res = await fetch("/api/pass-potato", {
