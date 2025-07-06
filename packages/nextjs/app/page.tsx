@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { execHaloCmdWeb } from "@arx-research/libhalo/api/web";
-// import { ethers } from "ethers";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { toast } from "sonner";
 
@@ -116,67 +116,38 @@ const Home: NextPage = () => {
     return address;
   }
 
-  // async function signMessage(message: string): Promise<string> {
-  //   const hash = ethers.hashMessage(message);
-  //   const hex = hash.replace(/^0x/, "");
-  //   const res = await execHaloCmdWeb({ name: "sign_challenge", keyNo: 2, challenge: hex });
-  //   return res.signature;
-  // }
+  async function signMessage(message: string): Promise<string> {
+    const hash = ethers.hashMessage(message);
+    const hex = hash.replace(/^0x/, "");
+    const res = await execHaloCmdWeb({ name: "sign_challenge", keyNo: 2, challenge: hex });
+    return res.signature;
+  }
 
   const signAndSend = async () => {
     if (!selfAddress || !scannedAddress || !status?.potatoId) return;
     setIsLoading(true);
     try {
-      // const message = `pass_potato_to:${scannedAddress}`;
-      // const sig = await signMessage(message);
-      // console.log(sig);
+      const message = `pass_potato_to:${scannedAddress}`;
+      const sig = await signMessage(message);
 
-      alert(
-        "Request body:\n" +
-          JSON.stringify(
-            {
-              id: Number(status.potatoId),
-              from: String(selfAddress),
-              to: String(scannedAddress),
-              signature: "123",
-            },
-            null,
-            2,
-          ),
-      );
-
-      const payload = {
-        id: status?.potatoId,
-        from: selfAddress,
-        to: scannedAddress,
-        signature: "",
-      };
-
-      const keys = Object.entries(payload).map(([key, value]) => {
-        return `${key}: ${typeof value} = ${String(value)}`;
-      });
-
-      alert("Payload types:\n" + keys.join("\n"));
-
-      const res = await fetch("/api/pass-potato", {
+      const res = await fetch("/api/pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: Number(status.potatoId),
           from: String(selfAddress),
           to: String(scannedAddress),
-          signature: String("123"),
-          // signature: sig,
+          signature: sig,
         }),
       });
 
       if (res.ok) {
         toast.success("Potato passed!");
-        // await fetchStatus(selfAddress);
+        await fetchStatus(selfAddress);
       } else {
-        // const { error } = await res.json();
-        // toast.error(error || "Backend error");
-        // alert(`Backend error: ${error}`);
+        const { error } = await res.json();
+        toast.error(error || "Backend error");
+        alert(`Backend error: ${error}`);
       }
     } catch (e) {
       console.error(e);
